@@ -1,7 +1,7 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 
-df = pd.read_csv('mm_verificados_nuevo.csv') # Cargar los datos limpios y verificados desde el archivo
+df = pd.read_csv('Datos_Mensuales_mm_validados.csv') # Cargar los datos limpios y verificados desde el archivo
 
 # Preparar los datos para la gráfica de máximas, medias y mínimas mensuales
 meses = ['ENERO', 'FEBRERO', 'MARZO', 'ABRIL', 'MAYO', 'JUNIO',
@@ -28,7 +28,7 @@ plt.plot(meses_etiquetas, Minima, label='Mínima', marker='v', color="#005F85", 
 # Función para evitar que los números se encimen
 for i in range(len(meses_etiquetas)): # Iterar sobre cada mes
     # Valor de Máxima (arriba del punto) 
-    plt.text(i, Maxima[i] + (Maxima.max()*0.02), f'{Maxima[i]:.1f}',
+    plt.text(i, Maxima[i] + (Maxima.max()*0.03), f'{Maxima[i]:.1f}',
              ha='left', va='bottom', color='#AC0A0A', fontweight='bold', fontsize=9, bbox=dict(facecolor='#fdfdfdef', edgecolor='none', pad=0.5))
     # Valor de Media (arriba del punto)
     plt.text(i, Media[i] + (Maxima.max()*0.02), f'{Media[i]:.1f}', 
@@ -45,7 +45,8 @@ ax.tick_params(axis='x', length=6, pad=1) # Aumentar la longitud de las ticks de
 ax.grid(False) # Quitar la cuadrícula por defecto
 ax.grid(axis='y', color="#969696FF", linestyle='--', alpha=0.5, zorder=0) # Líneas de la cuadrícula horizontales
 ax.spines[['top','left', 'bottom','right']].set_visible(False) # Quitar los bordes de la gráfica
-plt.suptitle('Precipitación Máxima en 24 horas en la Zona de Chalco (1961-2025)', fontsize=16, fontweight='bold') # Título de la gráfica
+
+plt.suptitle('Precipitación mensual total en la Zona de Chalco (1961-2025)', fontsize=16, fontweight='bold') # Título de la gráfica
 plt.title('Valores Mínimos, Medios y Máximos', fontsize=10, fontweight='bold', pad=15, color='gray') # Subtítulo de la gráfica
 plt.ylabel('Precipitación (mm)', fontsize=13, labelpad=10) # Etiqueta del eje Y
 plt.xlabel('Meses', fontsize=13, labelpad=10) # Etiqueta del eje X
@@ -59,5 +60,5 @@ plt.ylim(Minima.min() - 5, Maxima.max() + (Maxima.max()*0.15)) # Margen superior
 
 # Mostrar y guardar la imagen
 plt.tight_layout()
-plt.savefig('grafica_estadisticas_lluvia.png')
+plt.savefig('Grafica_estadisticas_lluvia_mensual.png')
 plt.show()
