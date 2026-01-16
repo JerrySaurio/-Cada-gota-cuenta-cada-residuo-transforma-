@@ -36,7 +36,7 @@ try:
 
         # Crear la gráfica de pastel
         fig, ax = plt.subplots(figsize=(12, 7)) # Tamaño de la figura
-        colores = ['#264653', '#2a9d8f', '#e9c46a', '#f4a261', '#e76f51', '#8ab17d'] # Paleta de colores personalizada
+        colores = ['#1B262C', '#16476A', '#1D546D', '#5F9598', '#79C9C5', '#F3F4F4'] # Paleta de colores personalizada
 
         wedges, texts, autotexts = ax.pie( # Crear la gráfica de pastel
             valores, # Datos para la gráfica
