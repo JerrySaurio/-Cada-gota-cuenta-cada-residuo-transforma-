@@ -3,6 +3,13 @@ import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 import pandas as pd
 import numpy as np
+import os
+
+carpeta_destino = 'Graficas_Datos_Generales'
+# Crear carpeta si no existe
+if not os.path.exists(carpeta_destino):
+    os.makedirs(carpeta_destino)
+
 
 df = pd.read_csv('Medidas_unidad_academica.csv') # Cargar datos de medidas
 # Convertimos a diccionario para fácil acceso
@@ -55,7 +62,9 @@ plt.xlabel('Metros (X)') # Etiqueta eje X
 plt.ylabel('Metros (Y)') # Etiqueta eje Y
 
 plt.tight_layout() # Ajustar el diseño para evitar recortes
-plt.savefig('Grafica_Perimetro_area.png') # Guardar la gráfica
+# Guardar la gráfica
+nombre_img = "Grafica_Perimetro_area.png" # Nombre del archivo de la imagen
+plt.savefig(os.path.join(carpeta_destino, nombre_img), dpi=400, bbox_inches='tight') # Guardar la imagen
 plt.show() # Mostrar la gráfica
 
 # Por ultimo guardar los resultados en un archivo de texto

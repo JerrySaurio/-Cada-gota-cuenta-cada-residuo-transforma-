@@ -1,5 +1,11 @@
 import pandas as pd
 import matplotlib.pyplot as plt
+import os
+
+carpeta_destino = 'Graficas_Datos_Generales'
+# Crear carpeta si no existe
+if not os.path.exists(carpeta_destino):
+    os.makedirs(carpeta_destino)
 
 df = pd.read_csv('Datos_Dia_mm_validados.csv') # Cargar los datos limpios y verificados desde el archivo
 
@@ -56,8 +62,9 @@ plt.legend(loc='upper right', frameon=True, shadow=True, fontsize=12) # Leyenda 
 
 # Ajustar el límite de Y para que los textos no se corten
 plt.ylim(Minima.min() - 5, Maxima.max() + (Maxima.max()*0.15)) # Margen superior e inferior
-
-# Mostrar y guardar la imagen
 plt.tight_layout()
-plt.savefig('Grafica_estadisticas_lluvia_24h.png')
+# Guardar la gráfica
+nombre_img = "Grafica_estadisticas_lluvia_24h.png" # Nombre del archivo de la imagen
+plt.savefig(os.path.join(carpeta_destino, nombre_img), dpi=400, bbox_inches='tight') # Guardar la imagen
+   
 plt.show()
