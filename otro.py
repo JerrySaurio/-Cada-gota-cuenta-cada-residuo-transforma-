@@ -9,7 +9,7 @@ st.title("📊 Sistema de Análisis de Lluvia Máxima")
 # 2. CARGA Y FILTRO DE DATOS
 @st.cache_data # Esto hace que el dashboard sea ultra fluido
 def cargar_datos():
-    return pd.read_csv('Datos_Mensuales_mm_validados.csv')
+    return pd.read_csv('Datos_Dia_mm_validados.csv')
 
 df = cargar_datos()
 
