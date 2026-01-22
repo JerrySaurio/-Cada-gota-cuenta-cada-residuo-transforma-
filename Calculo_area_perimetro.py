@@ -6,6 +6,20 @@ df_mm_anual =pd.read_csv('Datos_Dia_mm_validados.csv') # Lluvia maxima
 df_Co = pd.read_csv('Coeficiente.csv') # Coeficiente de escorrentia de acuerdo al material del techo
 df_medidas = pd.read_csv('Medidas_unidad_academica.csv') # Medidas de la unidad academica
 
+materiales = ["PET suficiente", "Canaletas", "Filtro primario (malla o tela)", "Tubo de bajada",
+    "Filtro secundario (arena, grava, carbón)", "Depósito para almacenamiento", "Llave de salida", "Tornillos, alambre, cinta", "Manguera"
+] # Lista de materiales
+pasos_scall = ["Colocar una canaleta en el borde del techo para recolectar el agua de la lluvia", "Conectar la canaleta a un tubo o embudo inicial que dirija el agua hacia la pared", "Fijar botellas PET cortadas (en forma de canal o media caña) a lo largo de la pared, formando una bajada continua",
+    "Unir las botellas con cinta resistente, tornillos o alambre, sobre una estructura de soporte (rejilla, madera reciclada", "Al final del canal, instalar un filtro casero con capas de grava, arena y carbón activado dentro de una botella cortada", "El agua filtrada cae directamente en un tinaco o depósito reciclado con tapa y válvula de salida."
+] # Pasos a seguir para la construcción del SCALL
+activado = ("El agua de lluvia es dirigida desde el techo a través de las canaletas hacia las botellas PET ensambladas en la pared.\n"
+            "El agua pasa por el filtro primario que retiene hojas y residuos grandes.\n"
+            "El agua continúa su camino a través del tubo de bajada hacia el filtro secundario que purifica el agua.\n"      
+            "¡Genial! ¡El agua limpia se almacena en el deposito listo para su uso!\n\n"
+            "El agua recolectada se podria usar para:\n"
+            "Riego de plantas, Limpeza de salones y patio, Uso sanitario\n\n"
+            "Se debe dar mantenimiento al sistema; monitorearlo, limpiarlo, cambiar filtros, etc\n"
+            '"Condicion sana, buena eficiencia"')
 # Procedimiento para el calculo de area y perimetro
 medidas = dict(zip(df_medidas['Medidas'], df_medidas['Metros'])) # Convertimos a diccionario para fácil acceso
 enfrente, atras = medidas['Enfrente'], medidas['Atras'] # Se definen coordenadas basadas en las medidas
@@ -43,7 +57,47 @@ volumen_captable = area * mm_maxima * Co # m3 volumen utilizable de agua pluvial
 volumen_descarte = (5 / 1000) * area * Co
 volumen_neto = max(0, volumen_captable - volumen_descarte)
 
+def calcular_volumen_captable(porcentaje_area):
+    """Calcula el volumen basado en el porcentaje de superficie."""
+    area_seleccionada = area * (porcentaje_area / 100)
+    volumen = area_seleccionada * mm_maxima * Co
+    return area_seleccionada, volumen
+
+def calcular_capacidad_almacenamiento(tipo_botella, cantidad):
+    """Determina la capacidad en litros y m3 según el PET recolectado."""
+    capacidad_unitaria = 2.75 if tipo_botella == "1" else 3.0
+    total_litros = cantidad * capacidad_unitaria
+    return total_litros, total_litros / 1000
+        
+# Generador de listas formateadas
+def generar_lista(titulo, lista):
+    salida = []
+    salida.append("-" * 60)
+    salida.append(f"{titulo}")
+    salida.append("-" * 60)
+
+    for i, item in enumerate(lista, start=1):
+        salida.append(f"{i}. {item}")
+
+    return "\n".join(salida)
+
+texto_materiales = generar_lista("Materiales para el sistema SCALL", materiales)
+texto_pasos = generar_lista("Pasos de contrucción SCALL", pasos_scall)
+
+
+df_mt = pd.DataFrame(materiales, columns=["Material"]) # Creamos el DataFrame
+df_mt.index = df_mt.index + 1 # Ajustamos el índice para que empiece en 1 y no en 0
+list_materiales = df_mt.to_string(justify='left')
+df_pasos = pd.DataFrame(pasos_scall, columns=["Pasos a seguir"]) # Creamos el DataFrame
+df_pasos.index = df_pasos.index + 1 # Ajustamos el índice para que empiece en 1 y no en 0
+pasos_seguir = df_pasos.to_string(justify='left')
+
+for i, row in df_mt.iterrows():
+    print(f"{i}. {row['Material']}")
+
+
 # Reporte final
+print("-" * 30)
 print(reporte)
 print("-" * 30)
 print(f"Perimetro: {perimetro:.2f} m \nÁrea: {area:.3f} m²")
