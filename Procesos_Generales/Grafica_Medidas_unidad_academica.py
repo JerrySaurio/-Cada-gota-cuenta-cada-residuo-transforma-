@@ -1,4 +1,5 @@
 # Grafica_Medidas_unidad_academica.py
+from Config_rutas import CARPETA_DATOS, CARPETA_RESULTADOS, CARPETA_GRAFICAS
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 import pandas as pd
@@ -11,13 +12,6 @@ CONFIG_UI = {
     "institucion": "Universidad Nacional Rosario Castellanos",
     "autor": 'Equipo 3',
 }
-
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) # Carpeta raíz del proyecto (una arriba de Procesos_Generales)
-CARPETA_DATOS = os.path.join(BASE_DIR, "Datos_recopilados") # Carpeta donde estan los archivo CSV
-CARPETA_RESULTADOS = os.path.join(BASE_DIR, "SCALL_Resultados") # Carpeta donde se guardan resultados
-CARPETA_GRAFICAS = os.path.join(BASE_DIR, "Graficas_Datos_Generales") # Carpeta donde se guardan resultados
-os.makedirs(CARPETA_RESULTADOS, exist_ok=True) # Crear carpeta si no existen
-os.makedirs(CARPETA_GRAFICAS, exist_ok=True) # Crear carpeta si no existen
 
 # FUNCIÓN CARGA SEGURA CSV
 def cargar_csv(nombre_archivo):
@@ -88,14 +82,14 @@ def Grafica_Medidas():
     plt.tight_layout() # Ajustar el diseño para evitar recortes
 
     # Guardar la gráfica
-    nombre_img = os.path.join(CARPETA_GRAFICAS, "Grafica_Perimetro_Area.png") # Nombre del archivo de la imagen
-    plt.savefig(nombre_img, dpi=400, bbox_inches='tight') # Guardar la imagen
+    ruta_img = os.path.join(CARPETA_GRAFICAS, "Grafica_Perimetro_Area.png") # Nombre del archivo de la imagen
+    plt.savefig(ruta_img, dpi=400, bbox_inches='tight') # Guardar la imagen
     plt.show() # Mostrar la gráfica
 
     # Por ultimo guardar los resultados en un archivo de texto
-    nombre_reporte = os.path.join(CARPETA_RESULTADOS, "Reporte_Medidas.txt")
+    ruta_reporte = os.path.join(CARPETA_RESULTADOS, "Reporte_Medidas.txt")
 
-    with open(nombre_reporte, "w", encoding="utf-8") as f: # Abrir archivo para escribir
+    with open(ruta_reporte, "w", encoding="utf-8") as f: # Abrir archivo para escribir
         f.write(CONFIG_UI["nombre_proyecto"] + "\n") # Título del proyecto
         f.write(CONFIG_UI["institucion"] + "\n") # Nombre de la Institución
         f.write("="*60 + "\n\n")
@@ -104,8 +98,8 @@ def Grafica_Medidas():
         f.write(f"Perímetro total: {perimetro:.2f} m\n") # Escribir resultado perímetro
         
     print("\nGráfica generada correctamente.")
-    print(f"Imagen guardada en: {nombre_img}")
-    print(f"Reporte guardado en: {nombre_reporte}")
+    print(f"Imagen guardada en: {ruta_img}")
+    print(f"Reporte guardado en: {ruta_reporte}")
 
 if __name__ == "__main__":
     Grafica_Medidas()

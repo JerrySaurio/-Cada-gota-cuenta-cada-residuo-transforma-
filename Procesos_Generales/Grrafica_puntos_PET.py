@@ -1,13 +1,9 @@
+from Config_rutas import CARPETA_DATOS, CARPETA_GRAFICAS
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 import pandas as pd
 import os
 import sys
-
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) # Carpeta raíz del proyecto (una arriba de Procesos_Generales)
-CARPETA_DATOS = os.path.join(BASE_DIR, "Datos_recopilados") # Carpeta donde estan los archivo CSV
-CARPETA_GRAFICAS = os.path.join(BASE_DIR, "Graficas_Datos_Generales") # Carpeta donde se guardan resultados
-os.makedirs(CARPETA_GRAFICAS, exist_ok=True) # Crear carpetas si no existen
 
 # FUNCIÓN CARGA SEGURA CSV
 def cargar_csv(nombre_archivo):

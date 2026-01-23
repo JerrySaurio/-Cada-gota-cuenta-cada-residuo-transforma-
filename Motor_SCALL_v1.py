@@ -1,20 +1,22 @@
+from Procesos_Generales.Config_rutas import CARPETA_DATOS
 import pandas as pd
 import numpy as np
 import sys
 import os
+
 # Carga segura de archivos
-def cargar_csv(nombre):
+def cargar_csv(nombre_archivo):
+    ruta = os.path.join(CARPETA_DATOS, nombre_archivo)
     try:
-        return pd.read_csv(nombre)
+        return pd.read_csv(ruta)
     except FileNotFoundError:
-        print(f"ERROR: No se encontró el archivo {nombre}")
+        print(f"\nERROR: No se encontró el archivo:\n{ruta}")
+        print("Verifica que la carpeta 'Datos_recopilados' exista y contenga el CSV.")
         sys.exit()
 
-RUTA_DATOS = os.path.join(os.path.dirname(__file__), "Datos_recopilados")
-
-df_mm_anual = cargar_csv(os.path.join(RUTA_DATOS, "Datos_Dia_mm_validados.csv"))
-df_Co = cargar_csv(os.path.join(RUTA_DATOS, "Coeficiente.csv"))
-df_medidas = cargar_csv(os.path.join(RUTA_DATOS, "Medidas_unidad_academica.csv"))
+df_mm_anual = cargar_csv("Datos_Dia_mm_validados.csv")
+df_Co = cargar_csv("Coeficiente.csv")
+df_medidas = cargar_csv("Medidas_unidad_academica.csv")
 
 CONFIG = { 
     "material_techo": "Techos impermeabilizados o cubiertos con materiales duros (p. ej. Tejas)",
