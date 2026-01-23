@@ -16,4 +16,4 @@ Apoyar la toma de decisiones en proyectos de sustentabilidad mediante cálculos 
 1. Clona el repositorio
 2. Ejecuta el archivo principal:
 ```bash
-python principal_sistema.py
+python Simulacion_SCALL_v2.py
