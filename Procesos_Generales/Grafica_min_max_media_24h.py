@@ -31,7 +31,7 @@ def Grafica_24h():
     meses_etiquetas = [mes.capitalize() for mes in meses] # Etiquetas con la primera letra en mayúscula
 
     # Se crea la gráfica de líneas para Máxima, Media y Mínima
-    plt.figure(figsize=(12, 6)) # Tamaño de la figura
+    plt.figure(figsize=(10, 6), dpi= 100)  # Tamaño de la figura
     plt.rcParams['axes.facecolor'] = "#fdfdfdef" # Fondo ligeramente gris para resaltar líneas
 
     # Dibujamos las líneas con estilos personalizados
@@ -75,9 +75,6 @@ def Grafica_24h():
     # Guardar la gráfica
     nombre_img = os.path.join(CARPETA_GRAFICAS, "Grafica_estadisticas_lluvia_24h.png") # Nombre del archivo de la imagen
     plt.savefig(nombre_img, dpi=400, bbox_inches='tight') # Guardar la imagen
-    plt.show()
     
-    print("\nGráfica generada correctamente.")
-
 if __name__ == "__main__":
     Grafica_24h()

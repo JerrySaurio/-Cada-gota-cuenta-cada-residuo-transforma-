@@ -54,7 +54,7 @@ def Grafica_Medidas():
     area = 0.5 * np.abs(np.dot(x, np.roll(y, 1)) - np.dot(y, np.roll(x, 1))) # Fórmula del área del polígono
 
     # Configuración de la visualización
-    fig, ax = plt.subplots(figsize=(8, 10)) # Tamaño de la figura
+    fig, ax = plt.subplots(figsize=(8, 9), dpi= 100) # Tamaño de la figura
     terreno = patches.Polygon(vertices, closed=True, facecolor="#d1e7dd", edgecolor="#0f5132", lw=2) # Polígono del terreno
     ax.add_patch(terreno) # Añadir el polígono del terreno
 
@@ -84,7 +84,6 @@ def Grafica_Medidas():
     # Guardar la gráfica
     ruta_img = os.path.join(CARPETA_GRAFICAS, "Grafica_Perimetro_Area.png") # Nombre del archivo de la imagen
     plt.savefig(ruta_img, dpi=400, bbox_inches='tight') # Guardar la imagen
-    plt.show() # Mostrar la gráfica
 
     # Por ultimo guardar los resultados en un archivo de texto
     ruta_reporte = os.path.join(CARPETA_RESULTADOS, "Reporte_Medidas.txt")
@@ -96,10 +95,6 @@ def Grafica_Medidas():
         f.write("Resultados de medición de la unidad académica\n\n") # Encabezado
         f.write(f"Área total: {area:.2f} m²\n") # Escribir resultado área
         f.write(f"Perímetro total: {perimetro:.2f} m\n") # Escribir resultado perímetro
-        
-    print("\nGráfica generada correctamente.")
-    print(f"Imagen guardada en: {ruta_img}")
-    print(f"Reporte guardado en: {ruta_reporte}")
 
 if __name__ == "__main__":
     Grafica_Medidas()

@@ -24,7 +24,7 @@ def Datos_Mensuales():
     df_anual['AÑO_STR'] = df_anual['AÑO'].astype(str) # Nueva columna para etiquetas
 
     # Configurar la figura
-    plt.figure(figsize=(14, 7)) # Tamaño de la figura
+    plt.figure(figsize=(10,6), dpi=100) # Tamaño de la figura
     plt.rcParams['axes.facecolor'] = "#fdfdfdef" # Fondo ligeramente gris para resaltar barras
 
     # Crear la gráfica de barras
@@ -61,9 +61,6 @@ def Datos_Mensuales():
     # Guardar la gráfica
     nombre_img = os.path.join(CARPETA_GRAFICAS, "Grafica_mm_anual_historica.png") # Nombre del archivo de la imagen
     plt.savefig(nombre_img, dpi=400, bbox_inches='tight') # Guardar la imagen
-    plt.show()
-    
-    print("\nGráfica generada correctamente.")
 
 if __name__ == "__main__":
     Datos_Mensuales()

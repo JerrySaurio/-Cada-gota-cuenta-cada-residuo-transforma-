@@ -36,7 +36,7 @@ def Grafica_puntos_pet():
     centro_principal_zona = ((enfrente * 0.50, lat_izq * 0.30)) # Zona de personas (Centro principal)
 
     # Configuración de la visualización
-    fig, ax = plt.subplots(figsize=(6, 8)) # Tamaño de la figura
+    fig, ax = plt.subplots(figsize=(6, 8), dpi=100) # Tamaño de la figura
     terreno = patches.Polygon(vertices_principal_unidad, closed=True, facecolor="#ffffff", edgecolor="#000000", lw=2) # Polígono del terreno
     terreno_secundario = patches.Polygon(Vertices_secundarios_unidad, closed=True, facecolor="#ffffff", edgecolor="#AA1C1C", lw=2, linestyle='-', alpha=0.8) # Polígono secundario del terreno
     ax.add_patch(terreno_secundario) # Añadir el polígono secundario
@@ -74,9 +74,6 @@ def Grafica_puntos_pet():
     # Guardar la gráfica
     nombre_img = os.path.join(CARPETA_GRAFICAS, "Grafica_Puntos_PET.png") # Nombre del archivo de la imagen
     plt.savefig(nombre_img, dpi=400, bbox_inches='tight') # Guardar la imagen
-    plt.show()
-    
-    print("\nGráfica generada correctamente.")
 
 if __name__ == "__main__":
     Grafica_puntos_pet()

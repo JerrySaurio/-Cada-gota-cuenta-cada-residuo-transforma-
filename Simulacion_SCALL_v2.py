@@ -1,7 +1,7 @@
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer
 from reportlab.lib.pagesizes import letter
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
-from reportlab.lib.enums import TA_CENTER
+from reportlab.lib.enums import TA_CENTER, TA_JUSTIFY
 import Motor_SCALL_v1 as MtSll
 import os
 
@@ -90,11 +90,28 @@ def generar_pdf(datos):
         alignment=TA_CENTER
     )
 
+    styles.add(ParagraphStyle(name="Center",
+                           parent=styles["Heading2"],
+                           alignment=TA_CENTER))
+
     elementos = []
 
-    elementos.append(Paragraph(CONFIG_UI["nombre_proyecto"], estilo_titulo))
-    elementos.append(Paragraph(CONFIG_UI["institucion"], styles["Heading2"]))
     elementos.append(Spacer(1, 20))
+    elementos.append(Paragraph(CONFIG_UI["nombre_proyecto"], estilo_titulo))
+    elementos.append(Spacer(1, 10))
+    elementos.append(Paragraph(CONFIG_UI["institucion"], styles["Center"]))
+    elementos.append(Spacer(1, 20))
+
+    styles.add(ParagraphStyle(name="Justificado",
+                           parent=styles["Normal"],
+                           alignment=TA_JUSTIFY))
+
+    elementos.append(Paragraph('Para que el proyecto fuera más que una buena intención, era necesario cuantificar su potencial.' \
+    ' El desafío era medir con precisión el área del techo del edificio, que no es un rectángulo simple, sino un polígono irregular' \
+    ' con lados de diferentes longitudes. Por esta razón, una fórmula de "largo por ancho" era inútil. Así que se aplicó un método' \
+    ' específico llamado la "fórmula del área de Gauss" (también conocida como "fórmula de la lazada"), una herramienta poderosa' \
+    ' para calcular el área de cualquier polígono a partir de las coordenadas de sus vértices. Facilitando el como teniamos que crear un' \
+    ' codigo automatico y de resultados a partir de eso valores', styles["Justificado"]))
 
     elementos.append(Paragraph("Resumen del Sistema de Captación de Agua Pluvial", styles["Heading2"]))
     elementos.append(Spacer(1, 12))
