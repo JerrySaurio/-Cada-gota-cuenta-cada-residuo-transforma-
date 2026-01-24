@@ -42,14 +42,14 @@ def Grafica_Mensual():
     # Función para evitar que los números se encimen
     for i in range(len(meses_etiquetas)): # Iterar sobre cada mes
         # Valor de Máxima (arriba del punto) 
-        plt.text(i, Maxima[i] + (Maxima.max()*0.03), f'{Maxima[i]:.1f}',
+        plt.text(i, Maxima.iloc[i] + (Maxima.max()*0.03), f'{Maxima.iloc[i]:.1f}',
                 ha='left', va='bottom', color='#AC0A0A', fontweight='bold', fontsize=9, bbox=dict(facecolor='#fdfdfdef', edgecolor='none', pad=0.5))
         # Valor de Media (arriba del punto)
-        plt.text(i, Media[i] + (Maxima.max()*0.02), f'{Media[i]:.1f}', 
+        plt.text(i, Media.iloc[i] + (Maxima.max()*0.02), f'{Media.iloc[i]:.1f}', 
                 ha='center', va='bottom', color='#0D995F', fontweight='bold', fontsize=9)
         # Valor de Mínima (Solo si es > 0)
-        if Minima[i] > 0.01:
-            plt.text(i, Minima[i] - (Maxima.max()*0.03), f'{Minima[i]:.1f}', 
+        if Minima.iloc[i] > 0.01:
+            plt.text(i, Minima.iloc[i] - (Maxima.max()*0.03), f'{Minima.iloc[i]:.1f}', 
                     ha='center', va='top', color='#005F85', fontweight='bold', fontsize=9)
         
     # Configuración visual de la gráfica

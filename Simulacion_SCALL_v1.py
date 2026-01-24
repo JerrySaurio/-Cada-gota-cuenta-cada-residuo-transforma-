@@ -112,7 +112,7 @@ def calcular_capacidad_pet(area_captada, volumen_piloto, porcentaje_piloto):
         else:
             print("\nOpción inválida.\nSolo ingresa 1 o 2.")
             continue # Vuelve a iniciar el ciclo actual      
-        capacidad_final = capacidad_litros
+        capacidad_final = capacidad_litros 
         capacidad_m3 = capacidad_final / 1000  # Convertir litros a m3
         volumen_estimado = volumen_piloto /( capacidad_final/100)        
         print(f"\nDatos de Capacidad del Sistema de captación de agua pluvial:")
@@ -145,7 +145,7 @@ def verificar_descarte(volumen_piloto, area_captada, capacidad_m3):
             print(f"     ¡Tienes aproximadamente {tienes_pocentaje:.2f}% del volumen captable.!\n")      
             
         else:
-            print("\n\n¡Respuesta invalida!\n Solo 'si' o 'no'.")
+            print("\n\n¡Respuesta invalida!\n Solo 'si' o 'no'.") 
             continue # Vuelve a iniciar el ciclo actual
         verificar_lluvia() # Función activada e inicio de esta
         break #Termina el bucle actual
@@ -155,7 +155,7 @@ def verificar_lluvia():
     while True: 
         print("Finalmente para que funcione el sistema de captacion pluvial y empezar a monitorear confirmar si llueve.")
         lluvia = input(f"¿Esta lloviendo en la UNRC? (Si/No)\n")
-        if lluvia == 'si' or lluvia == 'si':
+        if lluvia == 'si' or lluvia == 'si': 
             print(f"\nEl sistema se activa...\n\n"
             f"El agua de lluvia es dirigida desde el techo a través de las canaletas hacia las botellas PET ensambladas en la pared.\n"
             f"El agua pasa por el filtro primario que retiene hojas y residuos grandes.\n"

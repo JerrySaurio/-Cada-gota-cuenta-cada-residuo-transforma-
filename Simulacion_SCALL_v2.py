@@ -5,7 +5,7 @@ from reportlab.lib.enums import TA_CENTER, TA_JUSTIFY
 import Motor_SCALL_v1 as MtSll
 import os
 
-CARPETA_RESULTADOS = "SCALL_Resultados"
+CARPETA_RESULTADOS = "SCALL_Resultados" 
 
 if not os.path.exists(CARPETA_RESULTADOS):
     os.makedirs(CARPETA_RESULTADOS)
@@ -71,7 +71,7 @@ def seleccionar_botellas():
 def generar_reporte(datos):
     nombre_archivo = os.path.join(CARPETA_RESULTADOS, "Reporte_SCALL.txt")
     with open(nombre_archivo, "w", encoding="utf-8") as f:
-        f.write(f"{CONFIG_UI['nombre_proyecto']}\n")
+        f.write(f"{CONFIG_UI['nombre_proyecto']}\n") 
         f.write(f"{CONFIG_UI['institucion']}\n")
         f.write("="*60 + "\n\n")
 

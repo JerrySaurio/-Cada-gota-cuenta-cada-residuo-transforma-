@@ -3,35 +3,34 @@ from reportlab.lib.pagesizes import letter
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib.enums import TA_CENTER, TA_JUSTIFY
 from reportlab.lib.units import cm
+from Config_rutas import CARPETA_RESULTADOS, CARPETA_GRAFICAS, CARPETA_IMAGENES
 import os
-from Config_rutas import CARPETA_RESULTADOS, CARPETA_GRAFICAS
-import Simulacion_SCALL_v2 as Scall
-import Motor_SCALL_v1 as MtSll
 
 def generar_informe():
     nombre_pdf = os.path.join(CARPETA_RESULTADOS, "Informe_Final_SCALL.pdf")
 
     doc = SimpleDocTemplate(nombre_pdf, pagesize=letter)
     estilos = getSampleStyleSheet()
-    estilos.add(ParagraphStyle(name="Titulo", parent=estilos["Title"], fontName='Times-Bold', alignment=TA_CENTER))
-    estilos.add(ParagraphStyle(name="Justificado", parent=estilos["Normal"], fontSize=11, fontName='Times-Roman', alignment=TA_JUSTIFY))
-    estilos.add(ParagraphStyle(name="Center", parent=estilos["Heading2"], fontName='Times-Bold', alignment=TA_CENTER))
-    estilos.add(ParagraphStyle(name="Tema", parent=estilos["Heading2"], fontSize=11, fontName='Times-Bold'))
+    estilos.add(ParagraphStyle(name="Titulo", parent=estilos["Title"], fontSize=22, fontName='Times-Bold', alignment=TA_CENTER))
+    estilos.add(ParagraphStyle(name="Justificado", parent=estilos["Normal"], fontSize=12, fontName='Times-Roman', alignment=TA_JUSTIFY))
+    estilos.add(ParagraphStyle(name="Center", parent=estilos["Heading2"], fontSize=18, fontName='Times-Bold', alignment=TA_CENTER))
+    estilos.add(ParagraphStyle(name="Tema1", parent=estilos["Heading2"], fontSize=12, fontName='Times-Bold', alignment=TA_CENTER))
+    estilos.add(ParagraphStyle(name="Tema2", parent=estilos["Heading2"], fontSize=11.5, fontName='Times-Bold'))
 
     story = []
 
     # ---- PORTADA ----
-    story.append(Spacer(1, 20))
+    story.append(Spacer(1, 1*cm)) 
     story.append(Paragraph('Captación de agua pluvial y gestión de residuos.\n"Cada gota cuenta cada residuo transforma"', estilos["Titulo"]))
     story.append(Spacer(1, 10))
     story.append(Paragraph('Universidad Nacional Rosario Castellanos', estilos["Center"]))
-    story.append(Spacer(1, 30))
-    story.append(Paragraph("Resumen del Sistema de Captación de Agua Pluvial", estilos["Tema"]))
-
+    story.append(Spacer(1, 1*cm))
+    story.append(Paragraph("Resumen del Sistema de Captación de Agua Pluvial", estilos["Tema2"]))
+    
     # ---------- RESUMEN ----------
     story.append(Spacer(1, 0.2*cm))
 
-    resumen_texto = """
+    resumen_texto = """ 
 El sistema SCALL integra un motor de cálculo automatizado que permite estimar el potencial de captación pluvial de la unidad académica. A partir de las coordenadas del perímetro del edificio, se calcula el área efectiva de captación mediante el método geométrico del polígono irregular. Esta área constituye la base para estimar el volumen máximo de agua de lluvia que puede recolectarse.
 Posteriormente, el sistema permite seleccionar un porcentaje del área total a utilizar, simulando diferentes escenarios de implementación progresiva del sistema. Con base en este valor, se determina el volumen de agua potencialmente captado durante eventos de precipitación.
 Para el almacenamiento, el sistema dimensiona la capacidad del conducto construido con botellas PET interconectadas, considerando el tipo de botella y la cantidad disponible. De esta manera, se obtiene la capacidad real de almacenamiento en litros y metros cúbicos.
@@ -39,10 +38,19 @@ Finalmente, el sistema contempla un descarte inicial de agua de lluvia para limp
 Todo el proceso se encuentra automatizado y genera reportes digitales que documentan los resultados obtenidos.
 """
     story.append(Paragraph(resumen_texto, estilos["Justificado"]))
+    story.append(Spacer(1, 2*cm))
+    ruta_img = os.path.join(CARPETA_IMAGENES, "Portada.png")
+    if os.path.exists(ruta_img):
+        img = Image(ruta_img)
+        img.drawWidth = 16 * cm
+        img.drawHeight = 6 * cm
+        story.append(img)
+    else:
+        story.append(Paragraph(f"Imagen no encontrada.", estilos["Normal"]))
     story.append(PageBreak())
 
     # Insertar gráfica con diferente altura
-    story.append(Paragraph("Análisis de Perímetro y Área", estilos["Tema"]))
+    story.append(Paragraph("Análisis de Perímetro y Área", estilos["Tema2"]))
     story.append(Spacer(1, 0.2*cm))
 
     Explicacion_1 = """
@@ -52,7 +60,7 @@ alemán Carl Friedrich Gauss y coordenadas usadas en el plano cartesiano con un 
  orden, ya sea en sentido horario o antihorario.
 """
     story.append(Paragraph(Explicacion_1, estilos["Justificado"]))
-    story.append(Spacer(1, 1*cm))
+    story.append(Spacer(1, 0.8*cm))
     
     ruta_img = os.path.join(CARPETA_GRAFICAS, "Grafica_Perimetro_Area.png")
     if os.path.exists(ruta_img):
@@ -63,35 +71,69 @@ alemán Carl Friedrich Gauss y coordenadas usadas en el plano cartesiano con un 
     story.append(PageBreak())
 
     # ---- LISTA DE GRÁFICAS ----
-    graficas = [
-        ("Precipitación Histórica [Año]", "Grafica_mm_anual_historica.png"),
-        ("Precipitación Histórica [Mes]", "Grafica_estadisticas_lluvia_mensual.png"),
-        ("Precipitación Histórica Diaria - [Mes]", "Grafica_estadisticas_lluvia_24h.png"),
-    ]
+    story.append(Paragraph("Análisis de las Gráficas de Precipitación", estilos["Tema2"]))
+    analisis_mm="""
+Las gráficas de precipitación permiten visualizar el comportamiento histórico de las lluvias en la zona de estudio, identificando patrones temporales, variabilidad climática y periodos de mayor y menor disponibilidad hídrica.
+"""
+    story.append(Paragraph(analisis_mm, estilos["Justificado"]))
+    story.append(Spacer(1, 0.4*cm))
+    story.append(Paragraph("Precipitación Histórica Anual (1961 - 2025)", estilos["Tema1"]))
+    explicacion_2= """
+La precipitación histórica anual muestra la evolución del volumen total de lluvia a lo largo del tiempo, lo que permite detectar tendencias de incremento, estabilidad o disminución en los niveles de captación potencial. Este análisis es clave para evaluar la viabilidad a largo plazo del sistema de recolección pluvial y anticipar escenarios futuros de abastecimiento.
+"""
+    story.append(Paragraph(explicacion_2, estilos["Justificado"]))
+    story.append(Spacer(1, 0.8*cm))
+    ruta_img = os.path.join(CARPETA_GRAFICAS, "Grafica_mm_anual_historica.png")
+    if os.path.exists(ruta_img):
+        img = Image(ruta_img)
+        img.drawWidth = 16 * cm
+        img.drawHeight = 9 * cm
+        story.append(img)
+    else:
+        story.append(Paragraph(f"Imagen no encontrada.", estilos["Normal"]))
 
-    for titulo, archivo in graficas:
-        story.append(Paragraph(titulo, estilos["Tema"]))
-        story.append(Spacer(1, 0.3*cm))
+    story.append(Spacer(1, 0.6*cm))
+    story.append(Paragraph("Precipitación Histórica [Mes]", estilos["Tema1"]))
+    story.append(Spacer(1, 0.1*cm))
+    explicacion_3= """
+La precipitación mensual evidencia la estacionalidad del régimen de lluvias. Se observan meses con alta concentración de precipitaciones, los cuales representan ventanas óptimas de captación y almacenamiento, frente a periodos secos donde el sistema depende del volumen previamente acumulado. Esta distribución mensual orienta el dimensionamiento estratégico del almacenamiento.
+"""
+    story.append(Paragraph(explicacion_3, estilos["Justificado"]))
+    story.append(Spacer(1, 0.2*cm))
+    ruta_img = os.path.join(CARPETA_GRAFICAS, "Grafica_estadisticas_lluvia_mensual.png")
+    if os.path.exists(ruta_img):
+        img = Image(ruta_img)
+        img.drawWidth = 16 * cm
+        img.drawHeight = 9 * cm
+        story.append(img)
+    else:
+        story.append(Paragraph(f"Imagen no encontrada.", estilos["Normal"]))
 
-        ruta_img = os.path.join(CARPETA_GRAFICAS, archivo)
 
-        if os.path.exists(ruta_img):
-            img = Image(ruta_img)
-            img.drawWidth = 16 * cm
-            img.drawHeight = 9.5 * cm
-            story.append(img)
-
-        else:
-            story.append(Paragraph(f"Imagen no encontrada: {archivo}", estilos["Normal"]))
+    story.append(Paragraph("Precipitación Histórica Diaria - [Mes]", estilos["Tema1"]))
+    story.append(Spacer(1, 0.1*cm))
+    explicacion_4= """
+La precipitación diaria permite identificar eventos de lluvia intensos y su frecuencia. Estos picos representan oportunidades críticas de recolección, pero también ponen a prueba la capacidad hidráulica del sistema de conducción. Analizar esta variabilidad diaria ayuda a asegurar que la infraestructura pueda manejar tanto lluvias ligeras como precipitaciones abruptas sin pérdidas significativas.
+"""
+    story.append(Paragraph(explicacion_4, estilos["Justificado"]))
+    story.append(Spacer(1, 0.8*cm))
+    ruta_img = os.path.join(CARPETA_GRAFICAS, "Grafica_estadisticas_lluvia_24h.png")
+    if os.path.exists(ruta_img):
+        img = Image(ruta_img)
+        img.drawWidth = 16 * cm
+        img.drawHeight = 9 * cm
+        story.append(img)
+    else:
+        story.append(Paragraph(f"Imagen no encontrada.", estilos["Normal"]))
 
     story.append(PageBreak())
-    story.append(Paragraph("Distribución Espacial de Puntos de Recolección: PET y HDPE.", estilos["Tema"]))
-    story.append(Spacer(1, 0.2*cm))
 
-    Explicacion_4 ="""
+    story.append(Paragraph("Distribución Espacial de Puntos de Recolección: PET y HDPE.", estilos["Tema2"]))
+    story.append(Spacer(1, 0.2*cm))
+    Explicacion_5 ="""
 La disposición actual favorece una recolección eficiente, minimizando la interferencia con las áreas de estudio y maximizando la visibilidad de los contenedores para el personal y alumnado.
 """
-    story.append(Paragraph(Explicacion_4, estilos["Justificado"]))
+    story.append(Paragraph(Explicacion_5, estilos["Justificado"]))
     story.append(Spacer(1, 1*cm))
 
     ruta_img = os.path.join(CARPETA_GRAFICAS, "Grafica_Puntos_PET.png")
@@ -105,28 +147,15 @@ La disposición actual favorece una recolección eficiente, minimizando la inter
 
     # ---------- CONCLUSIÓN ----------
     story.append(Spacer(1, 0.4*cm))
-    story.append(Paragraph("Conclusión General", estilos["Tema"]))
+    story.append(Paragraph("Conclusión General", estilos["Tema2"]))
     story.append(Spacer(1, 0.4*cm))
 
     conclusion_texto = """
-El sistema SCALL no solo permite estimar el potencial de captación pluvial, sino que 
-también integra una propuesta de reutilización de residuos PET como estructura de conducción, 
-fomentando una solución de bajo costo, replicable y ambientalmente sostenible.
-La automatización del cálculo y la generación de reportes garantizan resultados consistentes, 
-trazables y fácilmente actualizables ante cambios en los parámetros de diseño. Esto convierte al 
-sistema SCALL en una herramienta práctica para evaluar proyectos de captación pluvial en entornos 
-educativos y comunitarios.
+El sistema SCALL no solo permite estimar el potencial de captación pluvial, sino que integra una propuesta de reutilización de residuos PET como estructura de conducción, consolidando una solución de bajo costo, replicable y ambientalmente sostenible. La automatización de cálculos y la generación de reportes garantizan resultados consistentes, trazables y fácilmente actualizables ante cambios en los parámetros de diseño.
+Por otra parte, el análisis de las gráficas de precipitación evidencia que el comportamiento de la lluvia no es constante ni uniforme, sino dinámico y estacional. Comprender esta variabilidad transforma los datos climáticos en información operativa, permitiendo diseñar un sistema de captación más eficiente, resiliente y alineado con las condiciones reales del entorno.
+En síntesis, SCALL convierte el análisis de datos ambientales en una herramienta de toma de decisiones, donde cada gota de lluvia y cada residuo reutilizado se convierten en una estrategia sostenible con impacto técnico y social.
 """
     story.append(Paragraph(conclusion_texto, estilos["Justificado"]))
-    datos = Scall.main()
-    datos_reporte = {
-    "Área total UNRC (m²)": f"{MtSll.area:.2f}",
-    "Área seleccionada (m²)": f"{Scall.main().area_c:.2f}",
-    "Volumen captable (m³)": f"{Scall.vol_c:.2f}",
-    "Capacidad de almacenamiento (m³)": f"{Scall.m3_almacen:.2f}",
-    "Volumen útil final (m³)": f"{Scall.util:.2f}",
-    "Porcentaje de aprovechamiento (%)": f"{Scall.porcentaje_sistema:.2f}"
-    }
 
     doc.build(story)
 

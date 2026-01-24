@@ -1,7 +1,7 @@
 from Config_rutas import CARPETA_GRAFICAS, CARPETA_RESULTADOS
 
 print("----------------------------------------------")
-print("      SISTEMA SCALL - EJECUCIÓN GENERAL")
+print("    Generación de Gráficas e Infome Final")
 print("----------------------------------------------")
 
 def generador_grafica_informe():
@@ -59,5 +59,5 @@ print(f"Imagenes guardadas en: {CARPETA_GRAFICAS}")
 print(f"Reportes e informe guardados en: {CARPETA_RESULTADOS}\n")
 
 print("----------------------------------------------")
-print("     PROYECTO SCALL EJECUTADO COMPLETO")
+print("                Finalizado")
 print("----------------------------------------------")
