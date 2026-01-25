@@ -1,10 +1,10 @@
-from Config_rutas import CARPETA_GRAFICAS, CARPETA_RESULTADOS
+from Config_rutas import CARPETA_GRAFICAS, CARPETA_RESULTADOS, CARPETA_IMAGENES
 
 print("----------------------------------------------")
 print("    Generación de Gráficas e Infome Final")
 print("----------------------------------------------")
 
-def generador_grafica_informe():
+def iniciador_Scall():
     try:
         print("Generando gráfica de medidas de unidad académica...")
         import Grafica_Medidas_unidad_academica
@@ -47,13 +47,13 @@ def generador_grafica_informe():
 
     try:
         print("Generando informe PDF final...")
-        import Generar_Informe
-        Generar_Informe.generar_informe()
+        from Simulacion_SCALL_v2 import InterfazSCALL
+        InterfazSCALL.ejecutar_flujo_completo()
         print("📄 Informe PDF generado correctamente.\n")
     except Exception as e:
         print(f"Error en el informe PDF final: {e}")
 
-generador_grafica_informe()
+iniciador_Scall()
 
 print(f"Imagenes guardadas en: {CARPETA_GRAFICAS}")
 print(f"Reportes e informe guardados en: {CARPETA_RESULTADOS}\n")
